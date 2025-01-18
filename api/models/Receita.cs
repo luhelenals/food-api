@@ -13,7 +13,7 @@ namespace api.models
         public List<Ingrediente> ingredientes { get; set; } = new List<Ingrediente>();
 
         // Relação com Ingrediente
-        public List<ReceitaIngrediente> ReceitaIngredientes { get; set; } = new List<ReceitaIngrediente>();
+        public List<ReceitaIngrediente> receitaIngredientes { get; set; } = new List<ReceitaIngrediente>();
 
     }
 }

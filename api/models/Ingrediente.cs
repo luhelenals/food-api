@@ -11,7 +11,7 @@ namespace api.models
         public string nome { get; set; } = string.Empty;
 
         // Relação com Receita
-        public List<ReceitaIngrediente> ReceitaIngredientes { get; set; } = new List<ReceitaIngrediente>();
+        public List<ReceitaIngrediente> receitaIngredientes { get; set; } = new List<ReceitaIngrediente>();
     
     }
 }
