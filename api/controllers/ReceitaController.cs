@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.data;
+using api.mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,11 +21,12 @@ namespace api.controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetReceitas()
+        public IActionResult GetReceitas()
         {
-            var receitas = await _context.Receitas
+            var receitas = _context.Receitas
                 .Include(r => r.Ingredientes) // Carrega os ingredientes relacionados
-                .ToListAsync();
+                .ToList()
+                .Select(r => r.ToReceitaDto());
 
             return Ok(receitas);
         }
