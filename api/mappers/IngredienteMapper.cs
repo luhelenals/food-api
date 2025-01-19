@@ -7,7 +7,7 @@ using api.models;
 
 namespace api.mappers
 {
-    public static class IngredienteMappers
+    public static class IngredienteMapper
     {
         public static IngredienteDto ToIngredienteDto(this Ingrediente ingredienteModel)
         {
@@ -23,6 +23,15 @@ namespace api.mappers
                         Titulo = r.Titulo
                     })
                     .ToList() // Converte para lista após o mapeamento
+            };
+        }
+
+        public static Ingrediente ToIngredienteFromCreateDto(this CreateIngredienteRequestDto ingredienteDto)
+        {
+            return new Ingrediente
+            {
+                Nome = ingredienteDto.Nome,
+                EmEstoque = ingredienteDto.EmEstoque
             };
         }
     }
