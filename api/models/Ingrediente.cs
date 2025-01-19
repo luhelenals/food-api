@@ -7,11 +7,12 @@ namespace api.models
 {
     public class Ingrediente
     {
-        public int id { get; set; }
-        public string nome { get; set; } = string.Empty;
+        public int Id { get; set; }
+        public string Nome { get; set; } = string.Empty;
+        public bool EmEstoque { get; set; }
+        public List<Receita> Receitas { get; set; } = new List<Receita>();
 
         // Relação com Receita
-        public List<ReceitaIngrediente> receitaIngredientes { get; set; } = new List<ReceitaIngrediente>();
-    
+        public List<ReceitaIngrediente> ReceitaIngredientes { get; set; } = new List<ReceitaIngrediente>();
     }
 }

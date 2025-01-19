@@ -7,13 +7,13 @@ namespace api.models
 {
     public class Receita
     {
-        public int id { get; set; }
-        public string titulo { get; set; } = string.Empty;
-        public float compatibilidade { get; set; }
-        public List<Ingrediente> ingredientes { get; set; } = new List<Ingrediente>();
+        public int Id { get; set; }
+        public string Titulo { get; set; } = string.Empty;
+        public float Compatibilidade { get; set; }
+        public List<Ingrediente> Ingredientes { get; set; } = new List<Ingrediente>();
 
         // Relação com Ingrediente
-        public List<ReceitaIngrediente> receitaIngredientes { get; set; } = new List<ReceitaIngrediente>();
+        public List<ReceitaIngrediente> ReceitaIngredientes { get; set; } = new List<ReceitaIngrediente>();
 
     }
 }

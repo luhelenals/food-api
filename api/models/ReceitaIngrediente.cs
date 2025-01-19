@@ -7,12 +7,12 @@ namespace api.models
 {
     public class ReceitaIngrediente
     {
-        public int id { get; set; }
+        public int Id { get; set; }
+        
+        public int ReceitaId { get; set; }
+        public Receita Receita { get; set; } = null!;
 
-        public int receitaId { get; set; }
-        public Receita receita { get; set; } = null!;
-
-        public int ingredienteId { get; set; }
-        public Ingrediente ingrediente { get; set; } = null!;
+        public int IngredienteId { get; set; }
+        public Ingrediente Ingrediente { get; set; } = null!;
     }
 }

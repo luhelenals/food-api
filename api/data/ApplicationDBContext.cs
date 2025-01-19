@@ -15,8 +15,27 @@ namespace api.data
             
         }
 
-        public DbSet<Receita> Receita { get; set; }
-        public DbSet<Ingrediente> Ingrediente { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Definir a tabela de junção (Muitos-para-Muitos)
+            modelBuilder.Entity<ReceitaIngrediente>()
+                .HasKey(ri => ri.Id);
+
+            modelBuilder.Entity<ReceitaIngrediente>()
+                .HasOne(ri => ri.Receita)
+                .WithMany(r => r.ReceitaIngredientes)
+                .HasForeignKey(ri => ri.ReceitaId);
+
+            modelBuilder.Entity<ReceitaIngrediente>()
+                .HasOne(ri => ri.Ingrediente)
+                .WithMany(i => i.ReceitaIngredientes)
+                .HasForeignKey(ri => ri.IngredienteId);
+        }
+
+        public DbSet<Receita> Receitas { get; set; }
+        public DbSet<Ingrediente> Ingredientes { get; set; }
 
     }
 }
