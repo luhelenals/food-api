@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.data;
+using api.dtos;
 using api.mappers;
+using api.models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,6 +42,17 @@ namespace api.controllers
                 return NotFound();
             
             return Ok(receita);
+        }
+
+        [HttpPost]
+        public IActionResult CreateReceita([FromBody] CreateReceitaRequestDto receitaDto)
+        {
+            Receita receita = receitaDto.ToReceitaFromCreateDto(_context);
+
+            _context.Add(receita);
+            _context.SaveChanges();
+            
+            return CreatedAtAction(nameof(GetById), new { id = receita.Id }, receita.ToReceitaDto());
         }
     }
 }

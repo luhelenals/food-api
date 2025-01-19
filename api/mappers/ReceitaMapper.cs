@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.data;
 using api.dtos;
 using api.models;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace api.mappers
 {
@@ -25,6 +27,27 @@ namespace api.mappers
                     .ToList() // Converte para lista após o mapeamento
             };
         }
-        
+
+        public static Receita ToReceitaFromCreateDto(this CreateReceitaRequestDto receitaDto, ApplicationDBContext context)
+        {
+            List<Ingrediente> ingredientes = context
+            .Ingredientes.Where(
+                i => receitaDto.IdIngredientes
+            .Contains(i.Id)).ToList();
+
+            Receita receita = new Receita
+            {
+                Titulo = receitaDto.Titulo,
+                Compatibilidade = receitaDto.Compatibilidade,
+                Ingredientes = new List<Ingrediente>()
+            };
+
+            foreach (var ingrediente in ingredientes)
+            {
+                receita.Ingredientes.Add(ingrediente); // Adiciona ingrediente
+            }
+
+            return receita;
+        }
     }
 }
