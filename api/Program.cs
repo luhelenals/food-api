@@ -6,7 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+.AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
+
 builder.Services.AddEndpointsApiExplorer(); // Required for minimal APIs.
 builder.Services.AddSwaggerGen(); // Add Swagger services.
 

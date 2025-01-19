@@ -33,7 +33,7 @@ namespace api.Migrations
 
                     b.HasIndex("ReceitasId");
 
-                    b.ToTable("IngredienteReceita");
+                    b.ToTable("IngredienteReceita", (string)null);
                 });
 
             modelBuilder.Entity("api.models.Ingrediente", b =>
@@ -76,29 +76,6 @@ namespace api.Migrations
                     b.ToTable("Receitas");
                 });
 
-            modelBuilder.Entity("api.models.ReceitaIngrediente", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("IngredienteId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ReceitaId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IngredienteId");
-
-                    b.HasIndex("ReceitaId");
-
-                    b.ToTable("ReceitaIngrediente");
-                });
-
             modelBuilder.Entity("IngredienteReceita", b =>
                 {
                     b.HasOne("api.models.Ingrediente", null)
@@ -112,35 +89,6 @@ namespace api.Migrations
                         .HasForeignKey("ReceitasId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("api.models.ReceitaIngrediente", b =>
-                {
-                    b.HasOne("api.models.Ingrediente", "Ingrediente")
-                        .WithMany("ReceitaIngredientes")
-                        .HasForeignKey("IngredienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("api.models.Receita", "Receita")
-                        .WithMany("ReceitaIngredientes")
-                        .HasForeignKey("ReceitaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ingrediente");
-
-                    b.Navigation("Receita");
-                });
-
-            modelBuilder.Entity("api.models.Ingrediente", b =>
-                {
-                    b.Navigation("ReceitaIngredientes");
-                });
-
-            modelBuilder.Entity("api.models.Receita", b =>
-                {
-                    b.Navigation("ReceitaIngredientes");
                 });
 #pragma warning restore 612, 618
         }

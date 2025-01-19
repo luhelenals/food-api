@@ -11,9 +11,5 @@ namespace api.models
         public string Titulo { get; set; } = string.Empty;
         public float Compatibilidade { get; set; }
         public List<Ingrediente> Ingredientes { get; set; } = new List<Ingrediente>();
-
-        // Relação com Ingrediente
-        public List<ReceitaIngrediente> ReceitaIngredientes { get; set; } = new List<ReceitaIngrediente>();
-
     }
 }

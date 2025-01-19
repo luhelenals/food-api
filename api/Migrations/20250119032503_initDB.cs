@@ -63,46 +63,10 @@ namespace api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ReceitaIngrediente",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ReceitaId = table.Column<int>(type: "integer", nullable: false),
-                    IngredienteId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReceitaIngrediente", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ReceitaIngrediente_Ingredientes_IngredienteId",
-                        column: x => x.IngredienteId,
-                        principalTable: "Ingredientes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ReceitaIngrediente_Receitas_ReceitaId",
-                        column: x => x.ReceitaId,
-                        principalTable: "Receitas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_IngredienteReceita_ReceitasId",
                 table: "IngredienteReceita",
                 column: "ReceitasId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ReceitaIngrediente_IngredienteId",
-                table: "ReceitaIngrediente",
-                column: "IngredienteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ReceitaIngrediente_ReceitaId",
-                table: "ReceitaIngrediente",
-                column: "ReceitaId");
         }
 
         /// <inheritdoc />
@@ -110,9 +74,6 @@ namespace api.Migrations
         {
             migrationBuilder.DropTable(
                 name: "IngredienteReceita");
-
-            migrationBuilder.DropTable(
-                name: "ReceitaIngrediente");
 
             migrationBuilder.DropTable(
                 name: "Ingredientes");

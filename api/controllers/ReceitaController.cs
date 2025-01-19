@@ -8,35 +8,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace api.controllers
 {
-    [Route("api/ingrediente")]
+    [Route("api/receita")]
     [ApiController]
-    public class IngredienteController : ControllerBase
+    public class ReceitaController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public IngredienteController(ApplicationDBContext context)
+
+        public ReceitaController(ApplicationDBContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetIngredientes()
+        public async Task<IActionResult> GetReceitas()
         {
-            var ingredientes = await _context.Ingredientes
-                .Include(i => i.Receitas) // Carrega as receitas relacionadas
+            var receitas = await _context.Receitas
+                .Include(r => r.Ingredientes) // Carrega os ingredientes relacionados
                 .ToListAsync();
 
-            return Ok(ingredientes);
+            return Ok(receitas);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById([FromRoute] int id)
         {
-            var ingrediente = _context.Ingredientes.Find(id);
+            var receita = _context.Receitas.Find(id);
 
-            if(ingrediente == null)
+            if(receita == null)
                 return NotFound();
             
-            return Ok(ingrediente);
+            return Ok(receita);
         }
     }
 }

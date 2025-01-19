@@ -11,8 +11,5 @@ namespace api.models
         public string Nome { get; set; } = string.Empty;
         public bool EmEstoque { get; set; }
         public List<Receita> Receitas { get; set; } = new List<Receita>();
-
-        // Relação com Receita
-        public List<ReceitaIngrediente> ReceitaIngredientes { get; set; } = new List<ReceitaIngrediente>();
     }
 }
