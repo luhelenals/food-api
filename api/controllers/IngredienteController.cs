@@ -24,10 +24,11 @@ namespace api.controllers
         [HttpGet]
         public IActionResult GetIngredientes()
         {
+            // Obter ingredientes do banco de dados em formato de lista
             var ingredientes = _context.Ingredientes
                 .Include(i => i.Receitas) // Inclui os relacionamentos
                 .ToList()
-                .Select(i => i.ToIngredienteDto()); // Usa o mapper
+                .Select(i => i.ToIngredienteDto());
 
             return Ok(ingredientes);
         }
@@ -35,6 +36,7 @@ namespace api.controllers
         [HttpGet("{id}")]
         public IActionResult GetById([FromRoute] int id)
         {
+            // Econtrar ingrediente do banco de dados baseado no Id
             var ingrediente = _context.Ingredientes.Find(id);
 
             if(ingrediente == null)
@@ -46,12 +48,38 @@ namespace api.controllers
         [HttpPost]
         public IActionResult CreateIngrediente([FromBody] CreateIngredienteRequestDto ingredienteDto)
         {
+            // Transformar DTO em objeto ingrediente
             Ingrediente ingrediente = ingredienteDto.ToIngredienteFromCreateDto();
 
+            // Adicionar ingrediente ao banco de dados e salvar
             _context.Ingredientes.Add(ingrediente);
             _context.SaveChanges();
 
             return CreatedAtAction(nameof(GetById), new { id = ingrediente.Id }, ingrediente.ToIngredienteDto());
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateIngrediente([FromBody] CreateIngredienteRequestDto ingredienteDto, [FromRoute] int id)
+        {
+            // Obter ingrediente do banco de dados pelo Id
+            var ingrediente = _context.Ingredientes
+                .Include(r => r.Receitas)
+                .FirstOrDefault(r => r.Id == id);
+
+            if (ingrediente == null)
+                return NotFound();
+
+            // Atualização do nome e do estoque (caso necessário)
+            if (!string.IsNullOrEmpty(ingredienteDto.Nome) && ingredienteDto.Nome != ingrediente.Nome)
+                ingrediente.Nome = ingredienteDto.Nome;
+
+            if (ingrediente.EmEstoque != ingredienteDto.EmEstoque)
+                ingrediente.EmEstoque = ingredienteDto.EmEstoque;
+
+            // Salvar modificações na base
+            _context.SaveChanges();
+
+            return Ok(ingrediente.ToIngredienteDto());
         }
     }
 }
