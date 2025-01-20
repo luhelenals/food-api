@@ -11,5 +11,24 @@ namespace api.models
         public string Titulo { get; set; } = string.Empty;
         public float Compatibilidade { get; set; }
         public List<Ingrediente> Ingredientes { get; set; } = new List<Ingrediente>();
+
+        public void AtualizaCompatibilidade()
+        {
+            if (Ingredientes.Count == 0)
+            {
+                Compatibilidade = 0;
+                return;
+            }
+            
+            // Seleciona ingredientes em estoque
+            var ingredientesEmEstoque = 
+                from ingrediente
+                in Ingredientes
+                where ingrediente.EmEstoque
+                select ingrediente;
+            
+            // Determina a compatibilidade baseada na razão entre ingredientes necessários e em estoque
+            Compatibilidade = (float)ingredientesEmEstoque.Count()/Ingredientes.Count;
+        }
     }
 }

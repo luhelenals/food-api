@@ -20,7 +20,8 @@ namespace api.mappers
                     .Select(r => new ReceitaSummary
                     {
                         Id = r.Id,
-                        Titulo = r.Titulo
+                        Titulo = r.Titulo,
+                        Compatibilidade = r.Compatibilidade
                     })
                     .ToList() // Converte para lista após o mapeamento
             };

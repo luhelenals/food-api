@@ -17,6 +17,7 @@ namespace api.mappers
             {
                 Id = ReceitaModel.Id,
                 Titulo = ReceitaModel.Titulo,
+                Compatibilidade = ReceitaModel.Compatibilidade,
                 Ingredientes = ReceitaModel.Ingredientes
                     .Select(r => new IngredienteSummary
                     {
@@ -30,22 +31,27 @@ namespace api.mappers
 
         public static Receita ToReceitaFromCreateDto(this CreateReceitaRequestDto receitaDto, ApplicationDBContext context)
         {
+            // Obtém a lista de ingredientes que possuem relação com a receita
             List<Ingrediente> ingredientes = context
             .Ingredientes.Where(
                 i => receitaDto.IdIngredientes
             .Contains(i.Id)).ToList();
 
+            // Cria uma nova receita
             Receita receita = new Receita
             {
                 Titulo = receitaDto.Titulo,
-                Compatibilidade = receitaDto.Compatibilidade,
                 Ingredientes = new List<Ingrediente>()
             };
 
+            // Adiciona ingredientes na lista de ingredientes
             foreach (var ingrediente in ingredientes)
             {
-                receita.Ingredientes.Add(ingrediente); // Adiciona ingrediente
+                receita.Ingredientes.Add(ingrediente);
             }
+
+            // Determina a compatibilidade
+            receita.AtualizaCompatibilidade();
 
             return receita;
         }

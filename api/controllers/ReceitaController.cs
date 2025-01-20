@@ -73,12 +73,9 @@ namespace api.controllers
             if (oldReceita == null)
                 return NotFound();
 
-            // Atualização do título e da compatibilidade (caso necessário)
+            // Atualização do título (caso necessário)
             if (!string.IsNullOrEmpty(receitaDto.Titulo) && receitaDto.Titulo != oldReceita.Titulo)
                 oldReceita.Titulo = receitaDto.Titulo;
-
-            if (oldReceita.Compatibilidade != receitaDto.Compatibilidade)
-                oldReceita.Compatibilidade = receitaDto.Compatibilidade;
 
             // Modificar a relação com Ingredientes
             var newIngredientes = _context.Ingredientes
@@ -96,6 +93,10 @@ namespace api.controllers
                     oldReceita.Ingredientes.Add(ingrediente);
                 }
             }
+
+            // Atualizar compatibilidade da receita
+            oldReceita.AtualizaCompatibilidade();
+            _context.Attach(oldReceita); // Garante que a entidade está no contexto
 
             // Salvar modificações na base
             _context.SaveChanges();

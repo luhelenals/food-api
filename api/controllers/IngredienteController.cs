@@ -76,6 +76,24 @@ namespace api.controllers
             if (ingrediente.EmEstoque != ingredienteDto.EmEstoque)
                 ingrediente.EmEstoque = ingredienteDto.EmEstoque;
 
+            // Atualizar compatibilidade das receitas associadas ao ingrediente
+            foreach (var receita in ingrediente.Receitas)
+            {
+                // Obter receita do banco de dados pelo Id
+                var receitaToUpdate = _context.Receitas
+                    .Include(i => i.Ingredientes)
+                    .FirstOrDefault(r => r.Id == receita.Id);
+                
+                if (receitaToUpdate != null)
+                {
+                    receitaToUpdate.AtualizaCompatibilidade();
+                    _context.Receitas.Attach(receitaToUpdate); // Garante que a entidade está no contexto
+                }
+                
+                // Salvar modificações na base
+                _context.SaveChanges();
+            }
+
             // Salvar modificações na base
             _context.SaveChanges();
 
