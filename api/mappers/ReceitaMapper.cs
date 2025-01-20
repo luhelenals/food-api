@@ -17,7 +17,6 @@ namespace api.mappers
             {
                 Id = ReceitaModel.Id,
                 Titulo = ReceitaModel.Titulo,
-                Descricao = ReceitaModel.Descricao,
                 Compatibilidade = ReceitaModel.Compatibilidade,
                 Ingredientes = ReceitaModel.Ingredientes
                     .Select(r => new IngredienteSummary

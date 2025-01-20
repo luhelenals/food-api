@@ -37,7 +37,11 @@ namespace api.controllers
         public IActionResult GetById([FromRoute] int id)
         {
             // Econtrar ingrediente do banco de dados baseado no Id
-            var ingrediente = _context.Ingredientes.Find(id);
+            var ingrediente = _context.Ingredientes
+                .Include(r => r.Receitas)
+                .ToList()
+                .Select(i => i.ToIngredienteDto())
+                .FirstOrDefault(r => r.Id == id);
 
             if(ingrediente == null)
                 return NotFound();

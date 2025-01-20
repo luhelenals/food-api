@@ -41,7 +41,11 @@ namespace api.controllers
         public IActionResult GetById([FromRoute] int id)
         {
             // Obter receita pelo ID
-            var receita = _context.Receitas.Find(id);
+            var receita = _context.Receitas
+                .Include(i => i.Ingredientes)
+                .ToList()
+                .Select(r => r.ToReceitaDto())
+                .FirstOrDefault(r => r.Id == id);
 
             if(receita == null)
                 return NotFound();
