@@ -84,12 +84,8 @@ namespace api.controllers
                     .Include(i => i.Ingredientes)
                     .FirstOrDefault(r => r.Id == receita.Id);
                 
-                if (receitaToUpdate != null)
-                {
-                    receitaToUpdate.AtualizaCompatibilidade();
-                    _context.Receitas.Attach(receitaToUpdate); // Garante que a entidade está no contexto
-                }
-                
+                receitaToUpdate?.AtualizaCompatibilidade();
+
                 // Salvar modificações na base
                 _context.SaveChanges();
             }

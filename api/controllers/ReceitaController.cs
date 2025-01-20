@@ -82,8 +82,11 @@ namespace api.controllers
                 .Where(i => receitaDto.IdIngredientes.Contains(i.Id))
                 .ToList();
 
+            Console.WriteLine($"newIngredientes.Count: {newIngredientes.Count}");
+
             // Limpar os ingredientes removidos
-            oldReceita.Ingredientes.RemoveAll(i => !newIngredientes.Contains(i));
+            if (newIngredientes.Count > 0)
+                oldReceita.Ingredientes.RemoveAll(i => !newIngredientes.Contains(i));
 
             // Adicionar ingredientes novos
             foreach (var ingrediente in newIngredientes)
@@ -96,7 +99,6 @@ namespace api.controllers
 
             // Atualizar compatibilidade da receita
             oldReceita.AtualizaCompatibilidade();
-            _context.Attach(oldReceita); // Garante que a entidade está no contexto
 
             // Salvar modificações na base
             _context.SaveChanges();
