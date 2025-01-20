@@ -19,6 +19,7 @@ namespace api.controllers
     {
         private readonly ApplicationDBContext _context;
 
+        // construtor
         public ReceitaController(ApplicationDBContext context)
         {
             _context = context;
@@ -27,6 +28,7 @@ namespace api.controllers
         [HttpGet]
         public IActionResult GetReceitas()
         {
+            // Obter receitas do banco de dados em formato de lista
             var receitas = _context.Receitas
                 .Include(r => r.Ingredientes) // Carrega os ingredientes relacionados
                 .ToList()
@@ -38,6 +40,7 @@ namespace api.controllers
         [HttpGet("{id}")]
         public IActionResult GetById([FromRoute] int id)
         {
+            // Obter receita pelo ID
             var receita = _context.Receitas.Find(id);
 
             if(receita == null)
@@ -49,8 +52,10 @@ namespace api.controllers
         [HttpPost]
         public IActionResult CreateReceita([FromBody] CreateReceitaRequestDto receitaDto)
         {
+            // Criar objeto Receita a partir do DTO
             Receita receita = receitaDto.ToReceitaFromCreateDto(_context);
 
+            // Adicionar receita ao banco de dados e salvar mudanças
             _context.Add(receita);
             _context.SaveChanges();
             
@@ -60,24 +65,42 @@ namespace api.controllers
         [HttpPut("{id}")]
         public IActionResult EditReceita([FromBody] CreateReceitaRequestDto receitaDto, [FromRoute] int id)
         {
-            Receita newReceita = receitaDto.ToReceitaFromCreateDto(_context);
+            // Obter os dados existentes na base
+            var oldReceita = _context.Receitas
+                .Include(r => r.Ingredientes)
+                .FirstOrDefault(r => r.Id == id);
 
-            var oldReceita = _context.Receitas.FirstOrDefault(x => x.Id == id);
-
-            if(oldReceita == null)
+            if (oldReceita == null)
                 return NotFound();
 
-            if(newReceita.Ingredientes != null && newReceita.Ingredientes != oldReceita.Ingredientes)
-                oldReceita.Ingredientes = newReceita.Ingredientes;
-            
-            if(newReceita.Titulo != null && oldReceita.Titulo != newReceita.Titulo)
-                oldReceita.Titulo = newReceita.Titulo;
-            
-            oldReceita.Compatibilidade = newReceita.Compatibilidade;
+            // Atualização do título e da compatibilidade (caso necessário)
+            if (!string.IsNullOrEmpty(receitaDto.Titulo) && receitaDto.Titulo != oldReceita.Titulo)
+                oldReceita.Titulo = receitaDto.Titulo;
 
+            if (oldReceita.Compatibilidade != receitaDto.Compatibilidade)
+                oldReceita.Compatibilidade = receitaDto.Compatibilidade;
+
+            // Modificar a relação com Ingredientes
+            var newIngredientes = _context.Ingredientes
+                .Where(i => receitaDto.IdIngredientes.Contains(i.Id))
+                .ToList();
+
+            // Limpar os ingredientes removidos
+            oldReceita.Ingredientes.RemoveAll(i => !newIngredientes.Contains(i));
+
+            // Adicionar ingredientes novos
+            foreach (var ingrediente in newIngredientes)
+            {
+                if (!oldReceita.Ingredientes.Contains(ingrediente))
+                {
+                    oldReceita.Ingredientes.Add(ingrediente);
+                }
+            }
+
+            // Salvar modificações na base
             _context.SaveChanges();
 
-            return Ok(oldReceita);
+            return Ok(oldReceita.ToReceitaDto());
         }
     }
 }
