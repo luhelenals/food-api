@@ -81,5 +81,23 @@ namespace api.controllers
 
             return Ok(ingrediente.ToIngredienteDto());
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteIngrediente([FromRoute] int id)
+        {
+            // Obter ingrediente do banco de dados pelo Id
+            var ingrediente = _context.Ingredientes
+                .Include(r => r.Receitas)
+                .FirstOrDefault(r => r.Id == id);
+
+            if (ingrediente == null)
+                return NotFound();
+
+            // Remove ingrediente e salva alterações no banco de dados
+            _context.Ingredientes.Remove(ingrediente);
+            _context.SaveChanges();
+
+            return GetIngredientes();
+        }
     }
 }

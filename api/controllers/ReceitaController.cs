@@ -102,5 +102,21 @@ namespace api.controllers
 
             return Ok(oldReceita.ToReceitaDto());
         }
+
+        [HttpDelete]
+        public IActionResult DeleteReceita([FromRoute] int id)
+        {
+            // Obter receita pelo ID
+            var receita = _context.Receitas.Find(id);
+
+            if(receita == null)
+                return NotFound();
+            
+            // Remover receita e salvar modificações na base
+            _context.Receitas.Remove(receita);
+            _context.SaveChanges();
+
+            return GetReceitas();
+        }
     }
 }
