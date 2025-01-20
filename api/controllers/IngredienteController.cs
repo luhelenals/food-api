@@ -82,7 +82,7 @@ namespace api.controllers
             return Ok(ingrediente.ToIngredienteDto());
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public IActionResult DeleteIngrediente([FromRoute] int id)
         {
             // Obter ingrediente do banco de dados pelo Id

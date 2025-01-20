@@ -103,7 +103,7 @@ namespace api.controllers
             return Ok(oldReceita.ToReceitaDto());
         }
 
-        [HttpDelete]
+        [HttpDelete("delete/{id}")]
         public IActionResult DeleteReceita([FromRoute] int id)
         {
             // Obter receita pelo ID
