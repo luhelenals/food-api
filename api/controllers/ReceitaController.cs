@@ -50,7 +50,7 @@ namespace api.controllers
         }
 
         [HttpPost]
-        public IActionResult CreateReceita([FromBody] CreateReceitaRequestDto receitaDto)
+        public IActionResult CreateReceita([FromBody] ReceitaRequestDto receitaDto)
         {
             // Criar objeto Receita a partir do DTO
             Receita receita = receitaDto.ToReceitaFromCreateDto(_context);
@@ -63,7 +63,7 @@ namespace api.controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult EditReceita([FromBody] CreateReceitaRequestDto receitaDto, [FromRoute] int id)
+        public IActionResult EditReceita([FromBody] ReceitaRequestDto receitaDto, [FromRoute] int id)
         {
             // Obter os dados existentes na base
             var oldReceita = _context.Receitas
@@ -73,16 +73,17 @@ namespace api.controllers
             if (oldReceita == null)
                 return NotFound();
 
-            // Atualização do título (caso necessário)
+            // Atualização do título e descrição (caso necessário)
             if (!string.IsNullOrEmpty(receitaDto.Titulo) && receitaDto.Titulo != oldReceita.Titulo)
                 oldReceita.Titulo = receitaDto.Titulo;
+
+            if (!string.IsNullOrEmpty(receitaDto.Descricao) && receitaDto.Descricao != oldReceita.Descricao)
+                oldReceita.Descricao = receitaDto.Descricao;
 
             // Modificar a relação com Ingredientes
             var newIngredientes = _context.Ingredientes
                 .Where(i => receitaDto.IdIngredientes.Contains(i.Id))
                 .ToList();
-
-            Console.WriteLine($"newIngredientes.Count: {newIngredientes.Count}");
 
             // Limpar os ingredientes removidos
             if (newIngredientes.Count > 0)

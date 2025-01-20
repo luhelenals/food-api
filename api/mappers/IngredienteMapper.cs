@@ -27,7 +27,7 @@ namespace api.mappers
             };
         }
 
-        public static Ingrediente ToIngredienteFromCreateDto(this CreateIngredienteRequestDto ingredienteDto)
+        public static Ingrediente ToIngredienteFromCreateDto(this IngredienteRequestDto ingredienteDto)
         {
             return new Ingrediente
             {

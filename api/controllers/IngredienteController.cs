@@ -60,7 +60,7 @@ namespace api.controllers
         }
 
         [HttpPost]
-        public IActionResult CreateIngrediente([FromBody] CreateIngredienteRequestDto ingredienteDto)
+        public IActionResult CreateIngrediente([FromBody] IngredienteRequestDto ingredienteDto)
         {
             // Transformar DTO em objeto ingrediente
             Ingrediente ingrediente = ingredienteDto.ToIngredienteFromCreateDto();
@@ -73,7 +73,7 @@ namespace api.controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateIngrediente([FromBody] CreateIngredienteRequestDto ingredienteDto, [FromRoute] int id)
+        public IActionResult UpdateIngrediente([FromBody] IngredienteRequestDto ingredienteDto, [FromRoute] int id)
         {
             // Obter ingrediente do banco de dados pelo Id
             var ingrediente = _context.Ingredientes
