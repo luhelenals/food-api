@@ -53,7 +53,8 @@ namespace api.controllers
                 .Include(r => r.Ingredientes)
                 .ToList()
                 .Where(r => r.Compatibilidade > 0)
-                .Select(r => r.ToReceitaDto());
+                .Select(r => r.ToReceitaDto())
+                .OrderByDescending(r => r.Compatibilidade);
 
             return Ok(receitas);
         }
