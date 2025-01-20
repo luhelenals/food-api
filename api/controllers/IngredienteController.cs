@@ -45,6 +45,19 @@ namespace api.controllers
             return Ok(ingrediente);
         }
 
+        [HttpGet("receitas")]
+        public IActionResult GetReceitasCompativeis()
+        {
+            // Obtém as receitas que possuem um compatibilidade maior que 0
+            var receitas = _context.Receitas
+                .Include(r => r.Ingredientes)
+                .ToList()
+                .Where(r => r.Compatibilidade > 0)
+                .Select(r => r.ToReceitaDto());
+
+            return Ok(receitas);
+        }
+
         [HttpPost]
         public IActionResult CreateIngrediente([FromBody] CreateIngredienteRequestDto ingredienteDto)
         {
