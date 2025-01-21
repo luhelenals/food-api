@@ -1,5 +1,10 @@
 @import "../../../color-variables.scss";
 
+body {
+    background-color: $dark-color;
+    margin: 0;
+}
+
 .header-section {
     display: flex;
     flex-direction: column;
@@ -12,4 +17,11 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-style: normal;
+}
+
+.recipe-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
