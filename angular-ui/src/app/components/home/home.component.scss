@@ -1,0 +1,15 @@
+@import "../../../color-variables.scss";
+
+.header-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat';
+    font-size: 56px;
+    font-weight: 500;
+    background: -webkit-linear-gradient(180deg, $primary-color, $secondary-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-style: normal;
+}
