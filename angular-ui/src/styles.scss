@@ -3,14 +3,11 @@
 .card-container {
     display: flex;
     flex-direction: row;
-    padding: 16px;
-    gap: 30px;
-    width: fit-content;
-    margin: auto;
-    overflow: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    transform: translateX(0%);
     overflow-x: auto;
-    overflow-y: hidden;
+    gap: 16px;
+    padding: 10px;
+    scroll-behavior: smooth;
+    max-width: 100%;
+    scrollbar-width: none;
+    scrollbar-color: transparent;
 }
