@@ -11,5 +11,7 @@ import { ButtonComponent } from "../button/button.component";
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
+  OnButtonClick(type: string) {
+    console.log("Clicou no botão " + type);
+  }
 }

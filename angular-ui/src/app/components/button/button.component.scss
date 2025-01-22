@@ -14,4 +14,7 @@
     color: white;
     background: -webkit-linear-gradient(180deg, $primary-color, $secondary-color);
     cursor: pointer;
+    &:hover {
+        opacity: 65%;
+    }
 }

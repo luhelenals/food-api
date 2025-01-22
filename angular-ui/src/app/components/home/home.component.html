@@ -1,13 +1,24 @@
-<body>
-    <section class="header-section">
-        <h1>Food App</h1>
-    </section>
-    <section class="recipe-section">
-        <app-receitas></app-receitas>
-        <app-button class="button" btn-text="Nova Receita"></app-button>
-    </section>
-    <section class="ingredient-section">
-        <app-ingredientes></app-ingredientes>
-        <app-button class="button" btn-text="Novo Ingrediente"></app-button>
-    </section>
-</body>
+<section class="header-section">
+    <h1>Food App</h1>
+</section>
+<section class="recipe-section">
+    <app-button
+    class="filter-btn"
+    btn-text="Receitas Compatíveis"
+    (buttonClick)="OnButtonClick('Receitas Compatíveis')">
+    </app-button>
+    <app-receitas></app-receitas>
+    <app-button
+    class="button"
+    btn-text="Nova Receita"
+    (buttonClick)="OnButtonClick('Nova Receita')">
+    </app-button>
+</section>
+<section class="ingredient-section">
+    <app-ingredientes></app-ingredientes>
+    <app-button
+    class="button"
+    btn-text="Novo Ingrediente"
+    (buttonClick)="OnButtonClick('Novo Ingrediente')">
+    </app-button>
+</section>  

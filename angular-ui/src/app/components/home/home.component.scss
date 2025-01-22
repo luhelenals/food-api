@@ -1,12 +1,5 @@
 @import "../../../color-variables.scss";
 
-body {
-    background-color: $dark-color;
-    margin: 0;
-    padding: 10px;
-    gap: 100px;
-}
-
 .header-section {
     display: flex;
     flex-direction: column;
@@ -27,4 +20,12 @@ body {
     align-items: center;
     justify-content: center;
     padding-bottom: 30px;
+}
+
+.filter-btn {
+    position: absolute;
+    top: 200px;
+    right: 0px;
+    font-size: 10px;
+    padding-right: 10px;
 }
