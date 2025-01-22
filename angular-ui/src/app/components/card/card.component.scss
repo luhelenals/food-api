@@ -1,12 +1,13 @@
 @import "../../../color-variables.scss";
 
 .card {
+    position: relative; /* Permite que elementos filhos com position: absolute sejam posicionados em relação ao card */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
     font-family: 'Montserrat';
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 200;
     color: $dark-color;
     background-color: white;
@@ -17,14 +18,24 @@
     padding-bottom: 15px;
 }
 
+.delete-icon {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    font-size: 30px;
+    font-weight: 200;
+    color: $dark-color;
+    cursor: pointer;
+}
+
 .info-div {
     display: flex;
     align-items: center;
     justify-content: center;
     justify-items: center;
     width: 180px;
-    height: 70px;
-    border-radius: 8px;
+    height: 40px;
+    border-radius: 14px;
     font-size: 14px;
     font-weight: 300;
     color: white;
