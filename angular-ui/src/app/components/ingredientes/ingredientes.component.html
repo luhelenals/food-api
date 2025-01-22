@@ -1,8 +1,7 @@
-<div class="card-container">
-    <app-card card-title="Ingrediente 1"></app-card>
-    <app-card card-title="Ingrediente 2"></app-card>
-    <app-card card-title="Ingrediente 3"></app-card>
-    <app-card card-title="Ingrediente 4"></app-card>
-    <app-card card-title="Ingrediente 5"></app-card>
-    <app-card card-title="Ingrediente 6"></app-card>
-</div>
+<div class="card-container" ng-cloak>
+    <app-card *ngFor="let ingrediente of ingredientes; let i = index" 
+              card-title="{{ingrediente.nome}}" 
+              card-info="{{ingrediente.emEstoque ? 'Em estoque' : 'Sem estoque'}}">
+    </app-card>
+    <h2 class="disp-warn" *ngIf="ingredientes.length === 0">Sem ingredientes disponíveis.</h2>
+</div>  

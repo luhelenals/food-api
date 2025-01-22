@@ -10,7 +10,7 @@ import { ButtonComponent } from "../button/button.component";
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent {  
   OnButtonClick(type: string) {
     console.log("Clicou no botão " + type);
   }

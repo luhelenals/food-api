@@ -1,6 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-
-// ingrediente => botão (em estoque => sem estoque)
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-card',

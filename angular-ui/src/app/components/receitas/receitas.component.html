@@ -1,8 +1,8 @@
-<div class="card-container">
-    <app-card card-title="Receita 1"></app-card>
-    <app-card card-title="Receita 2"></app-card>
-    <app-card card-title="Receita 3"></app-card>
-    <app-card card-title="Receita 4"></app-card>
-    <app-card card-title="Receita 5"></app-card>
-    <app-card card-title="Receita 6"></app-card>
+<div class="card-container" ng-cloak>
+    @for (receita of receitas; track $index) {
+        <app-card card-title="{{receita.titulo}}" card-info="{{receita.compatibilidade * 100}}% compatível"></app-card>
+    }
+    @empty {
+        <h2 class="disp-warn">Sem receitas disponíveis.</h2>
+    }
 </div>
