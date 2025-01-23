@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { ApiService } from '../../services/api.service';
 import { Ingrediente } from '../../interfaces/ingrediente';
@@ -11,20 +11,21 @@ import { CommonModule } from '@angular/common';
   templateUrl: './ingredientes.component.html',
   styleUrl: './ingredientes.component.scss'
 })
-export class IngredientesComponent {
+export class IngredientesComponent implements OnInit{
+  
   ingredientes: Ingrediente[] = [];
+  private apiService = inject(ApiService);
+  
+  ngOnInit(): void {
+    this.getIngredientes();
+  }
 
-  constructor(private apiService: ApiService, private cdr: ChangeDetectorRef) {
-    const observer = {
-      next: (data: any) => {
-        this.ingredientes = data.$values;
-        console.log('Ingredientes carregados:', this.ingredientes);
-        this.cdr.detectChanges();
+  getIngredientes() {
+    this.apiService.getIngredientes().subscribe({
+      next: (res) => {
+        this.ingredientes = res.$values;
       },
-      error: (error: any) => console.error('Erro ao carregar Ingredientes:', error),
-      complete: () => console.log('Requisição concluída.')
-    };
-
-    this.apiService.getIngredientes().subscribe(observer);
+      error: (error: any) => console.error('Erro ao carregar ingredientes:', error),
+    })
   }
 }

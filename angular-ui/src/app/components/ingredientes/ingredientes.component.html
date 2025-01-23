@@ -1,7 +1,8 @@
 <div class="card-container" ng-cloak>
-    <app-card *ngFor="let ingrediente of ingredientes; let i = index" 
-              card-title="{{ingrediente.nome}}" 
-              card-info="{{ingrediente.emEstoque ? 'Em estoque' : 'Sem estoque'}}">
-    </app-card>
-    <h2 class="disp-warn" *ngIf="ingredientes.length === 0">Sem ingredientes disponíveis.</h2>
-</div>  
+    @for (ingrediente of ingredientes; track $index) {
+        <app-card card-title="{{ingrediente.nome}}" card-info="{{ingrediente.emEstoque ? 'Em estoque' : 'Sem estoque'}}"></app-card>
+    }
+    @empty {
+        <h2 class="disp-warn">Sem ingredientes disponíveis.</h2>
+    }
+</div>

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adicionar suporte a User Secrets apenas no ambiente de desenvolvimento
 if (builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddUserSecrets<Program>();
@@ -11,14 +10,24 @@ if (builder.Environment.IsDevelopment())
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
 
-// Add services to the container.
 builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+});
+
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        policy.WithOrigins("http://localhost:4200") // Frontend URL
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
-    
-builder.Services.AddEndpointsApiExplorer(); // Required for minimal APIs.
-builder.Services.AddSwaggerGen(); // Add Swagger services.
+});
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDBContext>(options => {
     options.UseNpgsql(connectionString);
@@ -26,12 +35,14 @@ builder.Services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDBContext>(o
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(); // Enable Swagger middleware.
-    app.UseSwaggerUI(); // Enable the Swagger UI.
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+// Enable the CORS policy
+app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
 

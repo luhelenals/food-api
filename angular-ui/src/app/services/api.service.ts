@@ -11,7 +11,11 @@ export class ApiService {
 
   private readonly baseUrl = 'http://localhost:5077/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.getIngredientes();
+    this.getReceitas();
+    this.getReceitasCompativeis();
+  }
 
   // Método para buscar receitas
   getReceitas(): Observable<ReceitaResponse> {
