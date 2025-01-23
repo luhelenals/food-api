@@ -1,9 +1,9 @@
 export interface Receita {
-    id: number;
+    id?: number;
     titulo: string;
     descricao: string;
-    compatibilidade: number;
-    ingredientes: any[];
+    compatibilidade?: number;
+    idIngredientes: number[];
 }
 
 export interface ReceitaResponse {

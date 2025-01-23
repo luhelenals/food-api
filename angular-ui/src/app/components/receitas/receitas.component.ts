@@ -1,6 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CardComponent } from '../card/card.component';
-import { ApiService } from '../../services/api.service';
 import { Receita } from '../../interfaces/receita';
 import { CommonModule } from '@angular/common';
 import { ReceitaService } from '../../services/receita.service';
@@ -32,8 +31,8 @@ export class ReceitasComponent implements OnInit{
   }
 
   ngOnInit(): void {
-  this.receitasService.receitas$.subscribe((receitas) => {
-    this.receitas = receitas;
+    this.receitasService.receitas$.subscribe((receitas) => {
+      this.receitas = receitas;
   });
 
   // Carregar receitas iniciais

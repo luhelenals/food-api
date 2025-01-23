@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ReceitaResponse } from '../interfaces/receita';
-import { IngredienteResponse } from '../interfaces/ingrediente';
+import { Receita, ReceitaResponse } from '../interfaces/receita';
+import { Ingrediente, IngredienteResponse } from '../interfaces/ingrediente';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,11 @@ export class ApiService {
     return this.http.get<ReceitaResponse>(`${this.baseUrl}/receita`);
   }
 
+  // Método para adicionar receitas
+  postReceita(receita: Receita): Observable<Receita> {
+    return this.http.post<Receita>(`${this.baseUrl}/receita`, receita);
+  }
+
   // Método para buscar receitas compatíveis
   getReceitasCompativeis(): Observable<ReceitaResponse> {
     return this.http.get<ReceitaResponse>(`${this.baseUrl}/ingrediente/receitas`);
@@ -30,5 +35,10 @@ export class ApiService {
   // Método para buscar ingredientes
   getIngredientes(): Observable<IngredienteResponse> {
     return this.http.get<IngredienteResponse>(`${this.baseUrl}/ingrediente`);
+  }
+
+  // Método para adicionar ingredientes
+  postIngrediente(ingrediente: Ingrediente): Observable<Ingrediente> {
+    return this.http.post<Ingrediente>(`${this.baseUrl}/ingrediente`, ingrediente);
   }
 }

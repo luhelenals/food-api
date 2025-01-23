@@ -1,5 +1,5 @@
 export interface Ingrediente {
-    id: number;
+    id?: number;
     nome: string;
     emEstoque: boolean;
 }

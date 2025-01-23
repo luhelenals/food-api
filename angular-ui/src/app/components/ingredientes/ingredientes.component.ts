@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { ApiService } from '../../services/api.service';
 import { Ingrediente } from '../../interfaces/ingrediente';
 import { CommonModule } from '@angular/common';
+import { IngredienteService } from '../../services/ingrediente.service';
 
 @Component({
   selector: 'app-ingredientes',
@@ -12,20 +13,29 @@ import { CommonModule } from '@angular/common';
   styleUrl: './ingredientes.component.scss'
 })
 export class IngredientesComponent implements OnInit{
-  
   ingredientes: Ingrediente[] = [];
-  private apiService = inject(ApiService);
+  novoIngrediente: Ingrediente = { nome: '', emEstoque: false }; // Estrutura inicial de um ingrediente
+
+  constructor(private ingredienteService: IngredienteService, cdr: ChangeDetectorRef) {}
   
   ngOnInit(): void {
     this.getIngredientes();
   }
 
   getIngredientes() {
-    this.apiService.getIngredientes().subscribe({
-      next: (res) => {
-        this.ingredientes = res.$values;
-      },
-      error: (error: any) => console.error('Erro ao carregar ingredientes:', error),
-    })
+    this.ingredienteService.ingredientes$.subscribe((ingredientes) => {
+      this.ingredientes = ingredientes;
+    });
+
+    this.ingredienteService.fetchIngredientes();
+  }
+
+  adicionarIngrediente() {
+    if (this.novoIngrediente.nome.trim()) {
+      this.ingredienteService.postIngrediente(this.novoIngrediente);
+      this.novoIngrediente = { nome: '', emEstoque: false }; // Resetar o formulário
+    } else {
+      console.warn('O nome do ingrediente não pode estar vazio.');
+    }
   }
 }
