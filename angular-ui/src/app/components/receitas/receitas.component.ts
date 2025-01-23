@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { Receita } from '../../interfaces/receita';
 import { CommonModule } from '@angular/common';
-import { ReceitaService } from '../../services/receita.service';
+import { ReceitaService } from '../../services/receita/receita.service';
 import { ButtonComponent } from '../button/button.component';
 
 @Component({

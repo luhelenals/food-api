@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
+import { ApiService } from '../api/api.service';
 import { BehaviorSubject, catchError } from 'rxjs';
-import { Ingrediente } from '../interfaces/ingrediente';
+import { Ingrediente, IngredienteRequest } from '../../interfaces/ingrediente';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ export class IngredienteService {
   }
 
   // Método para postar um novo ingrediente
-  postIngrediente(ingrediente: Ingrediente) {
+  postIngrediente(ingrediente: IngredienteRequest) {
     this.apiService.postIngrediente(ingrediente).subscribe({
       next: (newIngrediente) => {
         // Atualiza a lista de ingredientes localmente
@@ -38,6 +38,13 @@ export class IngredienteService {
       error: (err) => {
         console.error('Erro ao adicionar ingrediente:', err);
       },
+    });
+  }
+
+  deleteIngrediente(id: number) {
+    this.apiService.deleteIngrediente(id).subscribe({
+      next: (res) => this.ingredientesSubject.next(res.$values || []),
+      error: (err) => console.error('Erro ao deletar ingrediente:', err),
     });
   }
 }

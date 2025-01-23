@@ -5,7 +5,7 @@
 </app-button>
 <div class="card-container" ng-cloak>
     @for (receita of receitas; track $index) {
-        <app-card card-title="{{receita.titulo}}" card-info="{{receita.compatibilidade ? receita.compatibilidade * 100 : 0}}% compatível"></app-card>
+        <app-card item-id={{receita.id}} card-type="receita" card-title="{{receita.titulo}}" card-info="{{receita.compatibilidade ? receita.compatibilidade * 100 : 0}}% compatível"></app-card>
     }
     @empty {
         <h2 class="disp-warn">Sem receitas disponíveis.</h2>

@@ -1,5 +1,5 @@
-<div *ngIf="cardTitle" (click)="onCardClick()" class="card">
-    <span class="delete-icon">&times;</span>
+<div *ngIf="cardTitle" (click)="onCardClick(false)" class="card">
+    <span class="delete-icon" (click)="onCardClick(true)">&times;</span>
     <h3>{{ cardTitle }}</h3>
     <div class="info-div">
         {{ info }}

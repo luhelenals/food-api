@@ -1,5 +1,10 @@
 export interface Ingrediente {
-    id?: number;
+    id: number;
+    nome: string;
+    emEstoque: boolean;
+}
+
+export interface IngredienteRequest {
     nome: string;
     emEstoque: boolean;
 }

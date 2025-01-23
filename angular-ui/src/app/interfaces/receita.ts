@@ -1,8 +1,14 @@
 export interface Receita {
-    id?: number;
+    id: number;
     titulo: string;
     descricao: string;
-    compatibilidade?: number;
+    compatibilidade: number;
+    idIngredientes: number[];
+}
+
+export interface ReceitaRequest {
+    titulo: string;
+    descricao?: string;
     idIngredientes: number[];
 }
 

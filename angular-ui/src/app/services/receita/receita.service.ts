@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Receita } from '../interfaces/receita';
-import { ApiService } from './api.service';
+import { Receita, ReceitaRequest } from '../../interfaces/receita';
+import { ApiService } from '../api/api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class ReceitaService {
     });
   }
 
-  postReceita(receita: Receita) {
+  postReceita(receita: ReceitaRequest) {
     this.apiService.postReceita(receita).subscribe({
       next: (newReceita) => {
         // Atualiza a lista de receitas localmente
@@ -41,6 +41,13 @@ export class ReceitaService {
       error: (err) => {
         console.error('Erro ao adicionar receita:', err);
       },
+    });
+  }
+
+  deleteReceita(id: number) {
+    this.apiService.deleteReceita(id).subscribe({
+      next: (res) => this.receitasSubject.next(res.$values || []),
+      error: (err) => console.error('Erro ao deletar receita:', err),
     });
   }
 }

@@ -1,6 +1,6 @@
 <div class="card-container" ng-cloak>
     @for (ingrediente of ingredientes; track $index) {
-        <app-card card-title="{{ingrediente.nome}}" card-info="{{ingrediente.emEstoque ? 'Em estoque' : 'Sem estoque'}}"></app-card>
+        <app-card item-id={{ingrediente.id}} card-type="ingrediente" card-title="{{ingrediente.nome}}" card-info="{{ingrediente.emEstoque ? 'Em estoque' : 'Sem estoque'}}"></app-card>
     }
     @empty {
         <h2 class="disp-warn">Sem ingredientes disponíveis.</h2>
