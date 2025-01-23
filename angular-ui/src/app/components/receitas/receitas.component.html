@@ -1,3 +1,8 @@
+<app-button
+    class="filter-btn"
+    btn-text="{{filter ? 'Todas as Receitas' : 'Receitas Compatíveis'}}"
+    (buttonClick)="filterReceitas()">
+</app-button>
 <div class="card-container" ng-cloak>
     @for (receita of receitas; track $index) {
         <app-card card-title="{{receita.titulo}}" card-info="{{receita.compatibilidade * 100}}% compatível"></app-card>

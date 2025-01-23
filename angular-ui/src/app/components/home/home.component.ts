@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ReceitasComponent } from "../receitas/receitas.component";
 import { IngredientesComponent } from "../ingredientes/ingredientes.component";
 import { ButtonComponent } from "../button/button.component";
+import { ReceitaService } from '../../services/receita.service';
 
 @Component({
   selector: 'app-home',
@@ -10,8 +11,15 @@ import { ButtonComponent } from "../button/button.component";
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {  
+export class HomeComponent { 
+  constructor(private receitaService: ReceitaService) {}
+
   OnButtonClick(type: string) {
-    console.log("Clicou no botão " + type);
+    switch(type) {
+      case 'Receitas Compatíveis':
+      {
+        this.receitaService.fetchReceitasCompativeis();
+      }break;
+    }
   }
 }

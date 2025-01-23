@@ -3,29 +3,40 @@ import { CardComponent } from '../card/card.component';
 import { ApiService } from '../../services/api.service';
 import { Receita } from '../../interfaces/receita';
 import { CommonModule } from '@angular/common';
+import { ReceitaService } from '../../services/receita.service';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-receitas',
   standalone: true,
-  imports: [CardComponent, CommonModule],
+  imports: [CardComponent, CommonModule, ButtonComponent],
   templateUrl: './receitas.component.html',
   styleUrl: './receitas.component.scss'
 })
+
 export class ReceitasComponent implements OnInit{
-  
   receitas: Receita[] = [];
-  private apiService = inject(ApiService);
-  
-  ngOnInit(): void {
-    this.getReceitas();
+  filter: boolean = false;
+
+  constructor(private receitasService: ReceitaService) {}
+
+  filterReceitas(): void {
+    if(this.filter) {
+      this.receitasService.fetchReceitas();
+      this.filter = false;
+    }
+    else {
+      this.receitasService.fetchReceitasCompativeis();
+      this.filter = true;
+    }
   }
 
-  getReceitas() {
-    this.apiService.getReceitas().subscribe({
-      next: (res) => {
-        this.receitas = res.$values;
-      },
-      error: (error: any) => console.error('Erro ao carregar receitas:', error),
-    })
+  ngOnInit(): void {
+  this.receitasService.receitas$.subscribe((receitas) => {
+    this.receitas = receitas;
+  });
+
+  // Carregar receitas iniciais
+  this.receitasService.fetchReceitas();
   }
 }
