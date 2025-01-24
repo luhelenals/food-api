@@ -46,10 +46,19 @@ Editar a string de conexão de `api/appsettings.json`:
 dotnet ef migrations add InitialMigration
 dotnet ef database update
 ```
-4. **Executar aplicação**:
+4. **Executar back end**:
 ```bash
+cd api
 dotnet run
 ```
+5. **Executar front end Angular**:
+```bash
+cd angular-ui
+ng serve
+```
+6. **Ou acessar Swagger**:
+http://localhost:5077/swagger/index.html
+
 ## Endpoints
 
 ### Ingredientes
@@ -67,7 +76,8 @@ dotnet run
 -   `DELETE /api/receita/delete/{id}`: Remove uma receita.
 
 ## Tecnologias Utilizadas
--   **Linguagem**: C# com .NET 9.0
+-   **Linguagem da API**: C# com .NET 9.0
 -   **Banco de Dados**: PostgreSQL/Entity Framework Core
 -   **Framework Web**: ASP.NET Core
 -   **Documentação**: OpenAPI/Swagger
+-   **Front end**: Angular 19
