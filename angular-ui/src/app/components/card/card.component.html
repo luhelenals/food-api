@@ -1,7 +1,14 @@
-<div *ngIf="cardTitle" (click)="onCardClick(false)" class="card">
-    <span class="delete-icon" (click)="onCardClick(true)">&times;</span>
-    <h3>{{ cardTitle }}</h3>
-    <div class="info-div">
-        {{ info }}
-    </div>
+<div *ngIf="cardTitle" (click)="onCardClick(false)" 
+[ngClass]="{'ingrediente-card': cardType === 'ingredienteForm', 'card': cardType !== 'ingredienteForm'}">
+    @if(cardType === "ingredienteForm"){
+        <input class="check-icon" type="checkbox">
+        <p>{{ cardTitle }}</p>
+    }
+    @else {
+        <h3>{{ cardTitle }}</h3>
+        <span class="icon" (click)="onCardClick(true)">&times;</span>
+        <div class="info-div">
+            {{ info }}
+        </div>
+    }
 </div>

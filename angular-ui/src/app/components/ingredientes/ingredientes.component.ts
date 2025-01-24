@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CardComponent } from '../card/card.component';
-import { Ingrediente, IngredienteRequest } from '../../interfaces/ingrediente';
+import { Ingrediente } from '../../interfaces/ingrediente';
 import { CommonModule } from '@angular/common';
 import { IngredienteService } from '../../services/ingrediente/ingrediente.service';
 
@@ -11,12 +11,15 @@ import { IngredienteService } from '../../services/ingrediente/ingrediente.servi
   templateUrl: './ingredientes.component.html',
   styleUrl: './ingredientes.component.scss'
 })
-export class IngredientesComponent implements OnInit{
+export class IngredientesComponent implements OnInit {
+  @Input("form-selection") formSelection: boolean = false;
+  @Output() ingredientesSelecionados = new EventEmitter<number[]>();
+
   ingredientes: Ingrediente[] = [];
-  novoIngrediente: IngredienteRequest = { nome: '', emEstoque: false }; // Estrutura inicial de um ingrediente
+  idsSelecionados: number[] = [];
 
   constructor(private ingredienteService: IngredienteService) {}
-  
+
   ngOnInit(): void {
     this.getIngredientes();
   }
@@ -29,16 +32,16 @@ export class IngredientesComponent implements OnInit{
     this.ingredienteService.fetchIngredientes();
   }
 
-  adicionarIngrediente() {
-    if (this.novoIngrediente.nome.trim()) {
-      this.ingredienteService.postIngrediente(this.novoIngrediente);
-      this.novoIngrediente = { nome: '', emEstoque: false }; // Resetar o formulário
+  toggleSelecionado(id: number): void {
+    if (this.idsSelecionados.includes(id)) {
+      this.idsSelecionados = this.idsSelecionados.filter((selecionado) => selecionado !== id);
     } else {
-      console.warn('O nome do ingrediente não pode estar vazio.');
+      this.idsSelecionados.push(id);
     }
+    this.ingredientesSelecionados.emit(this.idsSelecionados);
   }
 
-  ToNumber(num: string) {
-    return Number(num);
+  isSelecionado(id: number): boolean {
+    return this.idsSelecionados.includes(id);
   }
 }

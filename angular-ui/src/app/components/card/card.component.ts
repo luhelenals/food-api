@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { IngredienteService } from '../../services/ingrediente/ingrediente.service';
 import { ReceitaService } from '../../services/receita/receita.service';
 
-type CardType = "receita" | "ingrediente";
+type CardType = "receita" | "ingrediente" | "ingredienteForm";
 
 @Component({
   selector: 'app-card',

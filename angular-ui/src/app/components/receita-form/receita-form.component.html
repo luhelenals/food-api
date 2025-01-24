@@ -1,0 +1,36 @@
+<form class="form-container" #form="ngForm">
+    <h2 class="form-title">
+      {{ formType === 'create' ? 'Nova Receita' : 'Editar Receita' }}
+    </h2>
+  
+    <h3 class="input-name">Título</h3>
+    <input
+      class="input-field"
+      type="text"
+      name="nome"
+      [(ngModel)]="formData.titulo"
+      required
+    />
+
+    <h3 class="input-name">Descrição</h3>
+    <input
+      class="large-input-field"
+      type="text"
+      name="nome"
+      [(ngModel)]="formData.descricao"
+      required
+    />
+  
+    <h3 class="input-name">Ingredientes</h3>
+    <app-ingredientes
+    [form-selection]="true"
+    (ingredientesSelecionados)="onIngredientesSelecionados($event)"
+    ></app-ingredientes>
+    
+    <app-button
+      class="form-button"
+      btn-text="Salvar"
+      (buttonClick)="OnSubmit()"
+    ></app-button>
+  </form>
+  

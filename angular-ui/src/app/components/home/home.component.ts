@@ -6,11 +6,13 @@ import { ReceitaService } from '../../services/receita/receita.service';
 import { IngredienteService } from '../../services/ingrediente/ingrediente.service';
 import { Ingrediente } from '../../interfaces/ingrediente';
 import { Receita } from '../../interfaces/receita';
+import { IngredienteFormComponent } from "../ingrediente-form/ingrediente-form.component";
+import { ReceitaFormComponent } from '../receita-form/receita-form.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ReceitasComponent, IngredientesComponent, ButtonComponent],
+  imports: [ReceitasComponent, IngredientesComponent, ButtonComponent, IngredienteFormComponent, ReceitaFormComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

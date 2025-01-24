@@ -1,8 +1,24 @@
-<div class="card-container" ng-cloak>
-    @for (ingrediente of ingredientes; track $index) {
-        <app-card item-id={{ingrediente.id}} card-type="ingrediente" card-title="{{ingrediente.nome}}" card-info="{{ingrediente.emEstoque ? 'Em estoque' : 'Sem estoque'}}"></app-card>
-    }
-    @empty {
-        <h2 class="disp-warn">Sem ingredientes disponíveis.</h2>
-    }
-</div>
+@if(!formSelection) {
+    <div class="card-container" ng-cloak>
+        @for (ingrediente of ingredientes; track $index) {
+            <app-card item-id={{ingrediente.id}} card-type="ingrediente" card-title="{{ingrediente.nome}}" card-info="{{ingrediente.emEstoque ? 'Em estoque' : 'Sem estoque'}}"></app-card>
+        }
+        @empty {
+            <h2 class="disp-warn">Sem ingredientes disponíveis.</h2>
+        }
+    </div>
+}
+@else {
+    <div class="form-card-container" ng-cloak>
+        <div *ngFor="let ingrediente of ingredientes; track $index">
+            <app-card
+                [item-id]="ingrediente.id"
+                [card-title]="ingrediente.nome"
+                [class.selected]="isSelecionado(ingrediente.id)"
+                [card-type]="'ingredienteForm'"
+                (click)="toggleSelecionado(ingrediente.id)"
+            ></app-card>
+        </div>
+        <h2 class="disp-warn" *ngIf="ingredientes.length === 0">Sem ingredientes disponíveis.</h2>
+    </div>
+}

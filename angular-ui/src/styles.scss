@@ -34,3 +34,68 @@ body {
     height: 70px;
     border-radius: 8px;
 }
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+    border-radius: 12px;
+    width: fit-content;
+    height: fit-content;
+    padding: 20px;
+}
+
+.form-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Montserrat';
+    font-size: 20px;
+    font-weight: 800;
+    background: -webkit-linear-gradient(180deg, $primary-color, $secondary-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.input-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    font-family: 'Montserrat';
+    color: $dark-color;
+}
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Montserrat';
+    width: 300px;
+    height: 35px;
+    border-radius: 12px;
+    border-color: $dark-color;
+    border-width: 2px;
+}
+
+.large-input-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Montserrat';
+    width: 300px;
+    height: 80px;
+    border-radius: 12px;
+    border-color: $dark-color;
+    border-width: 2px;
+}
+
+.form-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 30px;
+    color: white;
+    padding-top: 30px;
+}
