@@ -1,34 +1,31 @@
-import { Component } from '@angular/core';
-import { ReceitasComponent } from "../receitas/receitas.component";
-import { IngredientesComponent } from "../ingredientes/ingredientes.component";
-import { ButtonComponent } from "../button/button.component";
-import { ReceitaService } from '../../services/receita/receita.service';
-import { IngredienteService } from '../../services/ingrediente/ingrediente.service';
-import { Ingrediente } from '../../interfaces/ingrediente';
-import { Receita } from '../../interfaces/receita';
-import { IngredienteFormComponent } from "../ingrediente-form/ingrediente-form.component";
+import { Component, ViewChild } from '@angular/core';
 import { ReceitaFormComponent } from '../receita-form/receita-form.component';
+import { IngredienteFormComponent } from '../ingrediente-form/ingrediente-form.component';
+import { ReceitasComponent } from '../receitas/receitas.component';
+import { IngredientesComponent } from '../ingredientes/ingredientes.component';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ReceitasComponent, IngredientesComponent, ButtonComponent, IngredienteFormComponent, ReceitaFormComponent],
+  imports: [ReceitaFormComponent, IngredienteFormComponent, ReceitasComponent, IngredientesComponent, ButtonComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
-export class HomeComponent { 
-  constructor(private receitaService: ReceitaService, private ingredienteService: IngredienteService) {}
+export class HomeComponent {
+  @ViewChild(ReceitaFormComponent) receitaFormComponent!: ReceitaFormComponent;
+  @ViewChild(IngredienteFormComponent) ingredienteFormComponent!: IngredienteFormComponent;
 
   OnButtonClick(type: string) {
-    switch(type) {
-      case 'Nova Receita':
-      {
-        this.receitaService.postReceita(<Receita>{'titulo': 'Pão de Queijo', 'descricao': 'é pão e tem queijo', 'idIngredientes': [1, 2]});
-      }break;
-      case 'Novo Ingrediente':
-      {
-        this.ingredienteService.postIngrediente(<Ingrediente>{'nome': 'alface', 'emEstoque': false});
-      }break;
+    switch (type) {
+      case 'Nova Receita': {
+        this.receitaFormComponent.abrirForm();
+        break;
+      }
+      case 'Novo Ingrediente': {
+        this.ingredienteFormComponent.abrirForm();
+        break;
+      }
     }
   }
 }

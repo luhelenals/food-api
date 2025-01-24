@@ -1,29 +1,35 @@
-<form class="form-container" #form="ngForm">
-    <h2 class="form-title">
-      {{ formType === 'create' ? 'Novo Ingrediente' : 'Editar Ingrediente' }}
-    </h2>
-  
-    <h3 class="input-name">Nome</h3>
-    <input
-      class="input-field"
-      type="text"
-      name="nome"
-      [(ngModel)]="formData.nome"
-      required
-    />
-  
-    <h3 class="input-name">Em estoque</h3>
-    <input
-      class="input-field"
-      type="checkbox"
-      name="emEstoque"
-      [(ngModel)]="formData.emEstoque"
-    />
-  
-    <app-button
-      class="form-button"
-      btn-text="Salvar"
-      (buttonClick)="OnSubmit()"
-    ></app-button>
-  </form>
-  
+@if(formVisivel) {
+  <div class="modal">
+    <div class="modal-content">
+      <span class="close" (click)="fecharForm()">&times;</span>
+      <form class="form-container" #form="ngForm">
+        <h2 class="form-title">
+          {{ formType === 'create' ? 'Novo Ingrediente' : 'Editar Ingrediente' }}
+        </h2>
+      
+        <h3 class="input-name">Nome</h3>
+        <input
+          class="input-field"
+          type="text"
+          name="nome"
+          [(ngModel)]="formData.nome"
+          required
+        />
+      
+        <h3 class="input-name">Em estoque</h3>
+        <input
+          class="input-field"
+          type="checkbox"
+          name="emEstoque"
+          [(ngModel)]="formData.emEstoque"
+        />
+      
+        <app-button
+          class="form-button"
+          btn-text="Salvar"
+          (buttonClick)="OnSubmit()"
+        ></app-button>
+      </form>
+    </div>
+  </div>
+}
