@@ -1,7 +1,7 @@
-@if(formVisivel) {
+@if(formVisible) {
   <div class="modal">
     <div class="modal-content">
-      <span class="close" (click)="fecharForm()">&times;</span>
+      <span class="close" (click)="closeForm()">&times;</span>
       <form class="form-container" #form="ngForm">
         <h2 class="form-title">
           {{ formType === 'create' ? 'Novo Ingrediente' : 'Editar Ingrediente' }}

@@ -26,6 +26,10 @@ export class ReceitaService {
     });
   }
 
+  getReceitaById(id: number) {
+    return this.apiService.getReceitaById(id);
+  }
+
   postReceita(receita: ReceitaRequest) {
     this.apiService.postReceita(receita).subscribe({
       next: (newReceita) => {
@@ -48,6 +52,18 @@ export class ReceitaService {
     this.apiService.deleteReceita(id).subscribe({
       next: (res) => this.receitasSubject.next(res.$values || []),
       error: (err) => console.error('Erro ao deletar receita:', err),
+    });
+  }
+
+  // Método para editar receita
+  updateReceita(id: number, receita: ReceitaRequest) {
+    this.apiService.updateReceita(id, receita).subscribe({
+      next: (newReceita) => {
+        console.log('Receita editada com sucesso:', newReceita);
+      },
+      error: (err) => {
+        console.error('Erro ao editar receita:', err);
+      },
     });
   }
 }

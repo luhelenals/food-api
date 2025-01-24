@@ -13,6 +13,7 @@ import { IngredienteService } from '../../services/ingrediente/ingrediente.servi
 })
 export class IngredientesComponent implements OnInit {
   @Input("form-selection") formSelection: boolean = false;
+  @Input() selectedIngredients: number[] = [];
   @Output() ingredientesSelecionados = new EventEmitter<number[]>();
 
   ingredientes: Ingrediente[] = [];

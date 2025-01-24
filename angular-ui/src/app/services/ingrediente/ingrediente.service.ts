@@ -22,6 +22,11 @@ export class IngredienteService {
     });
   }
 
+  // Método para obter ingrediente por um ID
+  getIngredienteById(id: number) {
+    return this.apiService.getIngredienteById(id);
+  }
+
   // Método para postar um novo ingrediente
   postIngrediente(ingrediente: IngredienteRequest) {
     this.apiService.postIngrediente(ingrediente).subscribe({
@@ -37,6 +42,18 @@ export class IngredienteService {
       },
       error: (err) => {
         console.error('Erro ao adicionar ingrediente:', err);
+      },
+    });
+  }
+
+  // Método para editar ingrediente
+  updateIngrediente(id: number, ingrediente: IngredienteRequest) {
+    this.apiService.updateIngrediente(id, ingrediente).subscribe({
+      next: (newIngrediente) => {
+        console.log('Ingrediente editado com sucesso:', newIngrediente);
+      },
+      error: (err) => {
+        console.error('Erro ao editar ingrediente:', err);
       },
     });
   }

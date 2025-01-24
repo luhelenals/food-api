@@ -1,56 +1,85 @@
 import { Component, Input } from '@angular/core';
+import { ReceitaService } from '../../services/receita/receita.service';
+import { ReceitaRequest } from '../../interfaces/receita';
+import { FormService } from '../../services/form/form.service';
 import { ButtonComponent } from '../button/button.component';
 import { FormsModule } from '@angular/forms';
-import { ReceitaRequest } from '../../interfaces/receita';
-import { ReceitaService } from '../../services/receita/receita.service';
 import { IngredientesComponent } from '../ingredientes/ingredientes.component';
-
-type FormType = "create" | "edit";
 
 @Component({
   selector: 'app-receita-form',
   standalone: true,
   imports: [ButtonComponent, FormsModule, IngredientesComponent],
   templateUrl: './receita-form.component.html',
-  styleUrl: './receita-form.component.scss'
+  styleUrl: './receita-form.component.scss',
 })
 export class ReceitaFormComponent {
+  formData: ReceitaRequest = { titulo: '', descricao: '', idIngredientes: [] };
+  formVisible: boolean = false;
+  id!: number;
   @Input('form-type') formType: FormType = "create";
-  @Input('form-fields') fields: string[] = [];
 
-  formData: ReceitaRequest = { titulo: '', descricao: '', idIngredientes:[] }; // Estrutura inicial de um ingrediente
-  constructor(private receitaService: ReceitaService) {}
+  constructor(
+    private formService: FormService,
+    private receitaService: ReceitaService
+  ) {
+    // Visibilidade do form
+    this.formService.formVisibility$.subscribe((visible) => {
+      this.formVisible = visible;
+    });
 
-  formVisivel: boolean = false; // Estado para controlar a visibilidade do pop-up
+    // ID do item
+    this.formService.formData$.subscribe((id) => {
+      if (id) {
+        this.loadReceitaData(id);
+      }
+    });
 
-  abrirForm(): void {
-    this.formVisivel = true;
+    // Tipo do formulário
+    this.formService.formType$.subscribe((type) => {
+      this.formType = type;
+    });
   }
 
-  fecharForm(): void {
-    this.formVisivel = false;
+  // Carregar informações do item pelo ID
+  loadReceitaData(id: number): void {
+    this.receitaService.getReceitaById(id).subscribe((receita) => {
+      this.formData = <ReceitaRequest>{ titulo: receita.titulo, descricao: receita.descricao, idIngredientes: receita.idIngredientes };
+      this.id = receita.id;
+    });
   }
 
-  OnSubmit(){
-    if(this.formType == "create") this.adicionarIngrediente();
-    else this.editarIngrediente();
+  openForm(): void {
+    this.formVisible = true;
   }
 
-  editarIngrediente() {
-    
+  closeForm(): void {
+    this.formService.closeForm();
   }
 
-  onIngredientesSelecionados(ids: number[]): void {
-    this.formData.idIngredientes = ids;
+  OnSubmit(): void {
+    if (this.formType === 'create')
+      this.criarReceita();
+    else this.editarReceita();
   }
 
-  adicionarIngrediente() {
+  // Criar novo
+  criarReceita() {
     if (this.formData.titulo.trim()) {
       this.receitaService.postReceita(this.formData);
-      this.formData = { titulo: '', descricao: '', idIngredientes:[] }; // Resetar o formulário
+      this.formService.closeForm();
     } else {
       console.warn('O título não pode estar vazio.');
     }
-    this.fecharForm();
+  }
+
+  // Editar item
+  editarReceita() {
+    this.receitaService.updateReceita(this.id, this.formData);
+  }
+
+  // Seleção de ingredientes por ID
+  onIngredientesSelecionados(ids: number[]): void {
+    this.formData.idIngredientes = ids;
   }
 }

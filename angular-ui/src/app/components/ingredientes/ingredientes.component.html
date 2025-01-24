@@ -10,7 +10,7 @@
 }
 @else {
     <div class="form-card-container" ng-cloak>
-        <div *ngFor="let ingrediente of ingredientes; track $index">
+        @for (ingrediente of ingredientes; track $index) {
             <app-card
                 [item-id]="ingrediente.id"
                 [card-title]="ingrediente.nome"
@@ -18,7 +18,7 @@
                 [card-type]="'ingredienteForm'"
                 (click)="toggleSelecionado(ingrediente.id)"
             ></app-card>
-        </div>
+        }        
         <h2 class="disp-warn" *ngIf="ingredientes.length === 0">Sem ingredientes disponíveis.</h2>
     </div>
 }

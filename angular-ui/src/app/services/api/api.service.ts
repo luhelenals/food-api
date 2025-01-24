@@ -22,6 +22,11 @@ export class ApiService {
     return this.http.get<ReceitaResponse>(`${this.baseUrl}/receita`);
   }
 
+  // Método para oter receita por id
+  getReceitaById(id: number): Observable<Receita> {
+    return this.http.get<Receita>(`${this.baseUrl}/receita/${id}`);
+  }
+
   // Método para adicionar receitas
   postReceita(receita: ReceitaRequest): Observable<Receita> {
     return this.http.post<Receita>(`${this.baseUrl}/receita`, receita);
@@ -37,6 +42,11 @@ export class ApiService {
     return this.http.delete<ReceitaResponse>(`${this.baseUrl}/receita/delete/${id}`);
   }
 
+  // Método para editar receita
+  updateReceita(id: number, receita: ReceitaRequest): Observable<ReceitaResponse> {
+    return this.http.put<ReceitaResponse>(`${this.baseUrl}/receita/${id}`, receita);
+  }
+
   // Método para buscar ingredientes
   getIngredientes(): Observable<IngredienteResponse> {
     return this.http.get<IngredienteResponse>(`${this.baseUrl}/ingrediente`);
@@ -50,5 +60,15 @@ export class ApiService {
   // Método para deletar ingredientes
   deleteIngrediente(id: number): Observable<IngredienteResponse> {
     return this.http.delete<IngredienteResponse>(`${this.baseUrl}/ingrediente/delete/${id}`);
+  }
+
+  // Método para editar ingrediente
+  updateIngrediente(id: number, ingrediente: IngredienteRequest): Observable<IngredienteResponse> {
+    return this.http.put<IngredienteResponse>(`${this.baseUrl}/ingrediente/${id}`, ingrediente);
+  }
+
+  // Método para oter ingrediente por id
+  getIngredienteById(id: number): Observable<Ingrediente> {
+    return this.http.get<Ingrediente>(`${this.baseUrl}/ingrediente/${id}`);
   }
 }

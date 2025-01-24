@@ -4,26 +4,30 @@ import { IngredienteFormComponent } from '../ingrediente-form/ingrediente-form.c
 import { ReceitasComponent } from '../receitas/receitas.component';
 import { IngredientesComponent } from '../ingredientes/ingredientes.component';
 import { ButtonComponent } from '../button/button.component';
+import { FormService } from '../../services/form/form.service';
+import { FormContainerComponent } from '../form-container/form-container.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ReceitaFormComponent, IngredienteFormComponent, ReceitasComponent, IngredientesComponent, ButtonComponent],
+  imports: [ReceitaFormComponent, IngredienteFormComponent, ReceitasComponent, IngredientesComponent, ButtonComponent, FormContainerComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
+  constructor(private formService: FormService) {}
+
   @ViewChild(ReceitaFormComponent) receitaFormComponent!: ReceitaFormComponent;
   @ViewChild(IngredienteFormComponent) ingredienteFormComponent!: IngredienteFormComponent;
 
   OnButtonClick(type: string) {
     switch (type) {
       case 'Nova Receita': {
-        this.receitaFormComponent.abrirForm();
+        this.formService.openForm("create", "receita");
         break;
       }
       case 'Novo Ingrediente': {
-        this.ingredienteFormComponent.abrirForm();
+        this.formService.openForm("create", "ingrediente");
         break;
       }
     }

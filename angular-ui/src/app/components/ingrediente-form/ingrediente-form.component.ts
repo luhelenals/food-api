@@ -3,8 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../button/button.component';
 import { IngredienteRequest } from '../../interfaces/ingrediente';
 import { IngredienteService } from '../../services/ingrediente/ingrediente.service';
-
-type FormType = "create" | "edit";
+import "../../custom-types";
+import { FormService } from '../../services/form/form.service';
 
 @Component({
   selector: 'app-ingrediente-form',
@@ -16,36 +16,64 @@ type FormType = "create" | "edit";
 export class IngredienteFormComponent {
   @Input('form-type') formType: FormType = "create";
   @Input('form-fields') fields: string[] = [];
+  @Input() id!: number; // ID of the item being updated
 
   formData: IngredienteRequest = { nome: '', emEstoque: false }; // Estrutura inicial de um ingrediente
-  constructor(private ingredienteService: IngredienteService) {}
+constructor(
+    private formService: FormService,
+    private ingredienteService: IngredienteService
+  ) {
+    // Subscribe to form visibility
+    this.formService.formVisibility$.subscribe((visible) => {
+      this.formVisible = visible;
+    });
 
-  formVisivel: boolean = false; // Estado para controlar a visibilidade do pop-up
+    // Subscribe to form data (ID)
+    this.formService.formData$.subscribe((id) => {
+      if (id) {
+        this.loadIngredienteData(id);
+      }
+    });
 
-  abrirForm(): void {
-    this.formVisivel = true;
+    // Subscribe to form type
+    this.formService.formType$.subscribe((type) => {
+      this.formType = type;
+    });
   }
 
-  fecharForm(): void {
-    this.formVisivel = false;
+  formVisible: boolean = false; // Estado para controlar a visibilidade do pop-up
+
+  openForm(): void {
+    this.formVisible = true;
+  }
+
+  closeForm(): void {
+    this.formService.closeForm();
+  }
+  
+  // Carregar dados do item para popular o form
+  loadIngredienteData(id: number): void {
+    this.ingredienteService.getIngredienteById(id).subscribe((ingrediente) => {
+      this.formData = { ...ingrediente };
+    });
   }
 
   OnSubmit(){
-    if(this.formType == "create") this.adicionarIngrediente();
+    if(this.formType === 'create') this.adicionarIngrediente();
     else this.editarIngrediente();
   }
 
   editarIngrediente() {
-
+    this.ingredienteService.updateIngrediente(this.id, this.formData);
+    this.closeForm();
   }
 
   adicionarIngrediente() {
     if (this.formData.nome.trim()) {
       this.ingredienteService.postIngrediente(this.formData);
-      this.formData = { nome: '', emEstoque: false }; // Resetar o formulário
+      this.closeForm();
     } else {
       console.warn('O nome do ingrediente não pode estar vazio.');
     }
-    this.fecharForm();
   }
 }
