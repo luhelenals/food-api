@@ -6,7 +6,7 @@
     }
     @else {
         <h3>{{ cardTitle }}</h3>
-        <span class="icon" (click)="onCardClick(true)">&times;</span>
+        <span class="icon" (click)="onCardClick(true); $event.stopPropagation()">&times;</span>
         <div class="info-div">
             {{ info }}
         </div>
