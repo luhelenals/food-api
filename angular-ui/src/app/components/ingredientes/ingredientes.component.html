@@ -10,7 +10,7 @@
 }
 @else {
     <div class="form-card-container" ng-cloak>
-        @for (ingrediente of ingredientes; track $index) {
+        @for (ingrediente of ingredientes; track ingrediente.id) {
             <app-card
                 [item-id]="ingrediente.id"
                 [card-title]="ingrediente.nome"

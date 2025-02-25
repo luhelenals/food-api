@@ -25,7 +25,6 @@ export class CardComponent {
     
     if (this.cardType === 'receita') {
       if (deleteButton) {
-        console.log("Deletar receita com ID:", this.itemId);
         this.receitaService.deleteReceita(Number(this.itemId));
       } else {
         this.formService.openForm("edit", this.cardType, Number(this.itemId));
@@ -35,7 +34,6 @@ export class CardComponent {
     else if (this.cardType === 'ingrediente') {
       console.log('ingrediente card');
       if (deleteButton) {
-        console.log("Deletar ingrediente com ID:", this.itemId);
         this.ingredienteService.deleteIngrediente(Number(this.itemId));
       } else {
         this.formService.openForm("edit", this.cardType, Number(this.itemId));

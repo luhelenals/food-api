@@ -31,6 +31,7 @@ constructor(
     // Subscribe to form data (ID)
     this.formService.formData$.subscribe((id) => {
       if (id) {
+        this.id = id;  // Atualiza o ID do ingrediente a ser editado
         this.loadIngredienteData(id);
       }
     });
@@ -41,6 +42,7 @@ constructor(
     });
   }
 
+  ingredienteId: number | null = null;
   formVisible: boolean = false; // Estado para controlar a visibilidade do pop-up
 
   openForm(): void {
@@ -53,10 +55,16 @@ constructor(
   
   // Carregar dados do item para popular o form
   loadIngredienteData(id: number): void {
-    this.ingredienteService.getIngredienteById(id).subscribe((ingrediente) => {
-      this.formData = { ...ingrediente };
-    });
-  }
+  this.ingredienteService.getIngredienteById(id).subscribe((ingrediente) => {
+    if (ingrediente) {
+      this.ingredienteId = id;  // 🔹 Armazena o ID separado do formData
+      this.formData = { nome: ingrediente.nome, emEstoque: ingrediente.emEstoque };
+      console.log("Ingrediente carregado:", this.ingredienteId, this.formData);
+    } else {
+      console.warn("Nenhum ingrediente encontrado com o ID:", id);
+    }
+  });
+}
 
   OnSubmit(){
     if(this.formType === 'create') this.adicionarIngrediente();
@@ -64,10 +72,15 @@ constructor(
   }
 
   editarIngrediente() {
-    this.ingredienteService.updateIngrediente(this.id, this.formData);
+    if (!this.ingredienteId) {
+      console.error("Erro: Tentativa de editar um ingrediente sem ID válido.");
+      return;
+    }
+  
+    this.ingredienteService.updateIngrediente(this.ingredienteId, this.formData);
     this.closeForm();
   }
-
+  
   adicionarIngrediente() {
     if (this.formData.nome.trim()) {
       this.ingredienteService.postIngrediente(this.formData);

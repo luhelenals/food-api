@@ -58,8 +58,19 @@ export class ReceitaService {
   // Método para editar receita
   updateReceita(id: number, receita: ReceitaRequest) {
     this.apiService.updateReceita(id, receita).subscribe({
-      next: (newReceita) => {
-        console.log('Receita editada com sucesso:', newReceita);
+      next: (response) => {
+        console.log('Receita editada com sucesso:', response);
+  
+        // Se a resposta da API vier com $values, extrai as receitas corretamente
+        const updatedReceita = (response as any).$values ? (response as any).$values[0] : response;
+  
+        // Atualiza a receita dentro do array localmente
+        const updatedReceitas = this.receitasSubject.getValue().map(r =>
+          r.id === id ? { ...updatedReceita } : r
+        );
+  
+        // Notifica os componentes sobre a mudança
+        this.receitasSubject.next(updatedReceitas);
       },
       error: (err) => {
         console.error('Erro ao editar receita:', err);

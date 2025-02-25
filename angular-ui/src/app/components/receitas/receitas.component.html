@@ -4,7 +4,7 @@
     (buttonClick)="filterReceitas()">
 </app-button>
 <div class="card-container" ng-cloak>
-    @for (receita of receitas; track $index) {
+    @for (receita of receitas; track receita.id) {
         <app-card item-id={{receita.id}} card-type="receita" card-title="{{receita.titulo}}" card-info="{{receita.compatibilidade ? receita.compatibilidade * 100 : 0}}% compatível"></app-card>
     }
     @empty {

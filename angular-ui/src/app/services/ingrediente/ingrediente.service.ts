@@ -49,8 +49,19 @@ export class IngredienteService {
   // Método para editar ingrediente
   updateIngrediente(id: number, ingrediente: IngredienteRequest) {
     this.apiService.updateIngrediente(id, ingrediente).subscribe({
-      next: (newIngrediente) => {
-        console.log('Ingrediente editado com sucesso:', newIngrediente);
+      next: (response) => {
+        console.log('Ingrediente editado com sucesso:', response);
+
+        // Se a resposta da API vier com $values, extrai as receitas corretamente
+        const updatedIngrediente = (response as any).$values ? (response as any).$values[0] : response;
+    
+        // Atualiza a receita dentro do array localmente
+        const updatedIngredientes = this.ingredientesSubject.getValue().map(r =>
+          r.id === id ? { ...updatedIngrediente } : r
+        );
+  
+        // Notifica os componentes sobre a mudança
+        this.ingredientesSubject.next(updatedIngredientes);
       },
       error: (err) => {
         console.error('Erro ao editar ingrediente:', err);
