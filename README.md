@@ -1,5 +1,9 @@
 # FoodApp
 Esta API foi desenvolvida utilizando ASP.NET Core com Entity Framework com funcionalidades de gerenciamento de ingredientes e receitas.
+
+## Preview
+![image](https://github.com/user-attachments/assets/362b19b3-677d-4418-ab4c-75515cbe2c17)
+
 ## Funcionalidades
 **Gerenciamento de Ingredientes e Receitas**:
 -  Listar todos os ingredientes ou receitas
